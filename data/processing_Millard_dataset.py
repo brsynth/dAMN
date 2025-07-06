@@ -1,92 +1,120 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
+# uniform, 20 points between 0 and 5 hours
+common_times = np.linspace(0.0, 5.0, 20)
 
-# Load the formatted Millard datasets
-df_1 = pd.read_csv("Millard_data_1mM_formated.csv")
-df_10 = pd.read_csv("Millard_data_10mM_formated.csv")
-df_30 = pd.read_csv("Millard_data_30mM_formated.csv")
+# Files to process
+files = {
+    "1mM" : "Millard_data_1mM_formated.csv",
+    "10mM": "Millard_data_10mM_formated.csv",
+    "30mM": "Millard_data_30mM_formated.csv"
+}
 
-# Load Paul media to get the full set of metabolites
-paul_media = pd.read_csv("Paul_media.csv")
+# Interpolated results
+interpolated_data = {}
+
+for label, file in files.items():
+    df = pd.read_csv(file)
+
+    # Set up interpolation functions for each column (excluding 'T')
+    interp_funcs = {
+        col: interp1d(df['T'], df[col], kind='linear', fill_value='extrapolate')
+        for col in df.columns if col != 'T'
+    }
+
+    # Build interpolated DataFrame
+    interp_df = pd.DataFrame({'T': common_times})
+    for col, f in interp_funcs.items():
+        interp_df[col] = f(common_times)
+
+    interpolated_data[label] = interp_df
+    # Save the result
+    interp_df.to_csv(f"Millard_data_{label}_interpolated.csv", index=False)
+
+# Load Paul media to extract full set of metabolites
+paul_media       = pd.read_csv("Paul_media.csv")
 paul_metabolites = list(paul_media.columns[1:])  # exclude 'ID'
 
-# Assign IDs for Millard datasets
-id_map = {1: 1, 10: 2, 30: 3}
-dfs = {1: df_1, 2: df_10, 3: df_30}
+# Interpolated files
+files = {
+    1: "Millard_data_1mM_interpolated.csv",
+    2: "Millard_data_10mM_interpolated.csv",
+    3: "Millard_data_30mM_interpolated.csv"
+}
 
 media_rows = []
 od_df_combined = pd.DataFrame()
 
-for label, df in dfs.items():
+for exp_id, file in files.items():
+    df = pd.read_csv(file)
     initial = df.iloc[0]
-    
-    # Build the media row from initial concentrations
+
+    # Create media dictionary (fill missing metabolites with 0)
     media_dict = {
-        'ID': label,
+        'ID': exp_id,
         'glc__D_e': initial['GLC'],
         'acet_e': initial['ACE_env'],
         'accoa_c': initial['ACCOA'],
         'acp_c': initial['ACP'],
         'ac_c': initial['ACE_cell'],
     }
-
-    # Fill in other required metabolites with 0
     for met in paul_metabolites:
         if met not in media_dict:
             media_dict[met] = 0.0
     media_rows.append(media_dict)
 
-    # Create OD block for each condition
-    t_col = f'T_{label}'
-    od_col = f'OD_{label}'
-    dev_col = f'DEV_{label}'
+    # OD block: log-transform biomass (X)
+    t_col = f'T_{exp_id}'
+    od_col = f'OD_{exp_id}'
+    dev_col = f'DEV_{exp_id}'
 
     tmp_df = pd.DataFrame({
         t_col: df['T'],
-        od_col: np.log(df['X'] + 1e-8),  # log-transform def: 1e-8
-        dev_col: np.zeros_like(df['X'])  # no deviation data
+        od_col: np.log(df['X'] + 1e-8),  # log(OD)
+        dev_col: np.zeros_like(df['X'])  # no deviation known
     })
-
-    # force to match expected row count (padding to 20 rows)
-    while len(tmp_df) < 20:
-        tmp_df.loc[len(tmp_df)] = [np.nan, np.nan, np.nan]
 
     tmp_df.reset_index(drop=True, inplace=True)
     od_df_combined = pd.concat([od_df_combined, tmp_df], axis=1)
 
-# Finalize the media DataFrame and order columns
+# Finalize DataFrames
 media_df = pd.DataFrame(media_rows)
 media_df = media_df[['ID'] + paul_metabolites]
 
-# Save results
-media_df.to_csv("Millard_media_converted.csv", index=False)
-od_df_combined.to_csv("Millard_OD_converted.csv", index=False)
 
-# Load the OD file
-od_df = pd.read_csv("Millard_OD_converted.csv")
+# save
+media_df.to_csv("Millard_media_from_interpolated.csv", index=False)
+od_df_combined.to_csv("Millard_OD_from_interpolated.csv", index=False)
 
-# List experiment IDs to plot (e.g., 991, 992, 993 for Millard)
-experiment_ids = [1, 2,3]
+
+# Load the converted OD file
+od_df = pd.read_csv("Millard_OD_from_interpolated.csv")
+
+# List of experiments
+exp_ids = [1, 2, 3]
+labels = {
+    1: "1 mM Acetate",
+    2: "10 mM Acetate",
+    3: "30 mM Acetate"
+}
 
 # Plot
-plt.figure(figsize=(10, 6), dpi=300)
-for exp_id in experiment_ids:
-    time_col = f'T_{exp_id}'
+plt.figure(figsize=(8, 5), dpi=300)
+for exp_id in exp_ids:
+    t_col = f'T_{exp_id}'
     od_col = f'OD_{exp_id}'
-    
-    if time_col in od_df.columns and od_col in od_df.columns:
-        od_df_clean = od_df[[time_col, od_col]].dropna()
-        plt.plot(od_df_clean[time_col], od_df_clean[od_col],
-                 label=f'ID {exp_id}', marker='o')
 
-plt.xlabel('Time (h)')
-plt.ylabel('log(OD)')
-plt.title('Millard Simulated log(OD) Timecourses')
+    if t_col in od_df.columns and od_col in od_df.columns:
+        data = od_df[[t_col, od_col]].dropna()
+        plt.plot(data[t_col], data[od_col], marker='o', label=labels.get(exp_id, f"ID {exp_id}"))
+
+plt.title("log(OD) Timecourses for Millard Conditions")
+plt.xlabel("Time (h)")
+plt.ylabel("log(OD)")
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend()
 plt.tight_layout()
 plt.show()
-
-    

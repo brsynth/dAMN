@@ -37,7 +37,7 @@ conda env create -n amn2_env -f environment.yml
 conda activate amn2_env
 ```
 
-## contributor(s)
+## Contributor(s)
 **Jean-Loup Faulon**: Implementation
 
 Email: jean-loup.faulon@inrae.fr

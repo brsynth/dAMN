@@ -30,8 +30,8 @@ This project uses **Python ≥ 3.8**, TensorFlow 2.x, and COBRApy.
 To recreate the required environment from the `environment.yml` file:
 
 ```bash
-conda env create -n amn2_env -f environment.yml
-conda activate amn2_env
+conda env create -n dAMN_env -f environment.yml
+conda activate dAMN_env
 ```
 
 ## Contributor(s)

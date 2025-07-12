@@ -1,6 +1,6 @@
-# AMN2 — Hybrid Neural Network for Dynamical FBA
+# dAMN — Hybrid Neural Network for Dynamical FBA
 
-**AMN2** is a hybrid machine learning model that combines:
+**dAMN** is a hybrid machine learning model that combines:
 - A neural network for metabolic flux inference;
 - A dynamical FBA to simulate metabolite and biomass evolution over time
 
@@ -20,6 +20,9 @@ Applied on [Millard et al. 2021](https://elifesciences.org/articles/63661) datas
 | `data/`                | Input datasets: media, OD, and metabolic model (SBML) |
 | `model/`               | Folder where trained models and validation arrays are stored |
 | `figure/`              | Plots for training and testing curves |
+|`library/` | contaning the needed py file(s) to run dAMN |
+|`scripts/` | contaning the test and the training scripts for both available datasets|
+
 ---
 
 ## Setup and Environment
@@ -33,3 +36,12 @@ To recreate the required environment from the `environment.yml` file:
 conda env create -n amn2_env -f environment.yml
 conda activate amn2_env
 ```
+
+## contributor(s)
+**Jean-Loup Faulon**: Implementation
+
+Email: jean-loup.faulon@inrae.fr
+
+**Danilo Dursoniah**: Maintenance
+
+Email: danilo.dursoniah@inrae.fr

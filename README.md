@@ -38,10 +38,10 @@ conda activate amn2_env
 ```
 
 ## Contributor(s)
-**Jean-Loup Faulon**: Implementation
+**Pr. Jean-Loup Faulon**: Implementation
 
 Email: jean-loup.faulon@inrae.fr
 
-**Danilo Dursoniah**: Maintenance
+**Danilo Dursoniah, PhD**: Maintenance
 
 Email: danilo.dursoniah@inrae.fr

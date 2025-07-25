@@ -1,4 +1,4 @@
-name: dAMN
+name: dAMN_env
 channels:
   - defaults
   - conda-forge

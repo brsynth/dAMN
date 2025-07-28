@@ -785,7 +785,7 @@ class MetabolicModel(tf.keras.Model):
         config = {
         'times': self.times.tolist() if isinstance(self.times, (np.ndarray, list)) else list(self.times),
         'train_time_steps': int(self.train_time_steps),
-        'metabolite_ids': self.metabolite_ids.tolist(),
+        'metabolite_ids': list(self.metabolite_ids),
         'Transport': self.Transport.tolist(),
         'Stoichiometry': self.Stoichiometry.tolist(),
         'k': int(self.k),
@@ -879,6 +879,41 @@ class MetabolicModel(tf.keras.Model):
 # CREATE TRAIN AND CROSS-VALIDATE MODEL
 ###############################################################################
 
+def reset_model(
+    model,
+    verbose=False
+):
+    """
+    Reset provided model: returns a new model instance with same architecture and config.
+    """
+
+    # Use model attributes directly
+    new_model = MetabolicModel(
+        times=model.times,
+        metabolite_ids=model.metabolite_ids,
+        Transport=model.Transport,
+        Stoichiometry=model.Stoichiometry,
+        rxn_ids=model.rxn_ids,
+        biomass_rxn_id=model.biomass_rxn_id,
+        hidden_layers_lag=model.hidden_layers_lag,
+        hidden_layers_flux=model.hidden_layers_flux,
+        dropout_rate=model.dropout_rate,
+        loss_weight=model.loss_weight,
+        loss_decay=model.loss_decay,
+        train_test_split=model.train_test_split,
+        x_fold=model.x_fold,
+        train_time_steps=model.train_time_steps,
+        verbose=verbose
+    )
+
+    # Force model to build
+    dummy = np.zeros((1, len(model.times), len(model.metabolite_ids)), dtype=np.float32)
+    _ = new_model(dummy, training=False)
+    if verbose:
+        new_model.printout()
+
+    return new_model
+    
 def create_model_train_val(
     media_file, od_file,
     cobra_model_file,

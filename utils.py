@@ -107,7 +107,8 @@ def plot_predicted_reference_growth_curve(
     experiment_ids=None,
     run_name="run",
     train_test_split="medium",
-    save=None
+    save=None,
+    to_show=False 
 ):
     """
     Plot all growth curves (OD or concentration) for multiple experiments/iterations.
@@ -195,7 +196,7 @@ def plot_predicted_reference_growth_curve(
         if save:
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.show() if to_show else None
 
 def plot_predicted_biomass_and_substrate(
     times, Pred,
@@ -203,7 +204,8 @@ def plot_predicted_biomass_and_substrate(
     metabolite_ids=None,
     run_name="run",
     train_test_split="medium",
-    save=None
+    save=None,
+    to_show=False
 ):
     """
     For each experiment, plot (on the same figure) the predicted growth curve (biomass, gDW/L) and
@@ -298,9 +300,9 @@ def plot_predicted_biomass_and_substrate(
         if save:
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.show() if to_show else None
 
-def plot_similarity_distribution(title, r2_values, save=''):
+def plot_similarity_distribution(title, r2_values, save='',to_show=False):
     """
     Plot R2 value distribution
     """
@@ -343,7 +345,7 @@ def plot_similarity_distribution(title, r2_values, save=''):
     if save != '':
         safe_title = title.replace(' ', '_')
         plt.savefig(f'{save}/{safe_title}.png', dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.show() if to_show else None
     
 ###############################################################################
 # PROCESS DATA: MEDIA, OD, AND COBRA MODEL

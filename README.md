@@ -14,9 +14,10 @@ Applied on [Millard et al. 2021](https://elifesciences.org/articles/63661) datas
 
 | File/Folder            | Description |
 |------------------------|-------------|
-| `dAMN.ipynb`           | Notebook to parametrize and run the model with a given dataset |
-| `train_dAMN.py`        | Script to train the model on a given dataset |
+| `dAMN.ipynb`           | Notebook to train, test and parametrize the model with a given dataset |
+| `dAMN_train.py`        | Script to train the model on a given dataset |
 | `dAMN_test.py`         | Script to test the model |
+| `dAMN_test.ipynb`      | Notebook to visualize the testing of the model |
 | `dAMN_test_all.py`     | Script to test the model for growth curve and forecasting of the biomass and the substrate |
 | `parameters_search.py` | Script for kinetics parameters inference |
 | `parameters_search_all.py` | Script for kinetics parameters inference in medium and forecast mode with saving |

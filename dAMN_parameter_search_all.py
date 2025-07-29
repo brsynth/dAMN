@@ -98,7 +98,7 @@ for mode in ['forecast', 'medium']:
 
     # Sort and save results
     results = sorted(results, key=lambda x: x["R2_mean"], reverse=True)
-    out_file = f'results/results_{mode}.json'
+    out_file = f'results_params/results_{mode}.json'
     with open(out_file, 'w') as f:
         json.dump(results, f, indent=2)
     print(f"\n Saved results to {out_file}\n")

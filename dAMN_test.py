@@ -17,13 +17,16 @@ metabolite_ids = [
 'tyr__L_e', 'val__L_e', 'ade_e', 'gua_e', 'csn_e', 'ura_e', 'thymd_e', 'BIOMASS'
 ]
 
-train_test_split = 'forecast' # 'forecast' or 'medium'
+#train_test_split = 'forecast' # 'forecast' or 'medium'
+train_test_split = os.getenv("train_test_split","forecast")
 folder = './'
 file_name = 'M28_OD_20'
 N_iter = 1
 run_name = f'{file_name}_{train_test_split}'
 OD = True # when True biomass concentration transformed in OD
-plot =  'substrate' # 'growth' or 'substrate'
+#plot =  'substrate' # 'growth' or 'substrate'
+plot = os.getenv("plot","substrate")
+figure_folder = os.getenv("figure_folder", "./figure") # folder where the figures are saved
 
 # Load
 val_array = np.loadtxt(f'{folder}model/{run_name}_val_array.txt', dtype=float)
@@ -46,7 +49,7 @@ R2 = utils.r2_growth_curve(Pred, Ref, OD=OD)
 
 print(f'Model: {run_name}  R2 = {np.mean(R2):.2f}±{np.std(R2):.2f} Median = {np.median(R2):.2f}')
 title = f"R2 Histogram {train_test_split}"
-utils.plot_similarity_distribution(title, R2, save="./figure")
+utils.plot_similarity_distribution(title, R2, save=figure_folder)
 
 # Plot
 if plot == 'growth':
@@ -58,7 +61,7 @@ if plot == 'growth':
     experiment_ids=list(val_ids),
     run_name=run_name,
     train_test_split=train_test_split,
-    save="./figure"
+    save=figure_folder
     )
 elif plot == 'substrate':
     utils.plot_predicted_biomass_and_substrate(
@@ -67,5 +70,5 @@ elif plot == 'substrate':
     metabolite_ids=list(model.metabolite_ids),
     run_name=run_name,
     train_test_split=train_test_split,
-    save="./figure"
+    save=figure_folder
     )

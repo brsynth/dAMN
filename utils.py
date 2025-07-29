@@ -197,6 +197,7 @@ def plot_predicted_reference_growth_curve(
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
         plt.show() if to_show else None
+        plt.close()
 
 def plot_predicted_biomass_and_substrate(
     times, Pred,
@@ -301,6 +302,7 @@ def plot_predicted_biomass_and_substrate(
             title_clean = f"{title.replace(' ', '_').replace('/', '')}"
             plt.savefig(f'{save}/{title_clean}.png', dpi=300, bbox_inches='tight')
         plt.show() if to_show else None
+        plt.close()
 
 def plot_similarity_distribution(title, r2_values, save='',to_show=False):
     """
@@ -346,6 +348,7 @@ def plot_similarity_distribution(title, r2_values, save='',to_show=False):
         safe_title = title.replace(' ', '_')
         plt.savefig(f'{save}/{safe_title}.png', dpi=300, bbox_inches='tight')
     plt.show() if to_show else None
+    plt.close()
     
 ###############################################################################
 # PROCESS DATA: MEDIA, OD, AND COBRA MODEL

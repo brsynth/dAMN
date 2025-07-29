@@ -6,7 +6,7 @@
 
 It is designed to predict **time-course biomass growth** under various **media conditions**, integrating stoichiometry and transport constraints from genome-scale metabolic models (GEMs).
 
-Applied on [Millard et al. 2021](https://elifesciences.org/articles/63661) dataset in *E.coli*.
+Applied on E.coli dataset.
 
 ---
 

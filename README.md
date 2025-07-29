@@ -18,7 +18,7 @@ Applied on [Millard et al. 2021](https://elifesciences.org/articles/63661) datas
 | `dAMN_train.py`           | Script to train the model on a given dataset                   |
 | `dAMN_test.ipynb`         | Notebook to test and visualize the prediction                  |
 | `dAMN_parameter_search.py`| Script for model parametrization                            |
-| `utils.py`                | Core functions: model, data preprocessing, training, plotting  |
+| `utils.py`                | Core functions for data preprocessing, model training, testing and plotting  |
 | `data/`                   | Input datasets: media, OD, and metabolic model (SBML)          |
 | `model/`                  | Folder where trained models and validation arrays are stored   |
 | `figure/`                 | Plots for training and testing curves                          |

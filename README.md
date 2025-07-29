@@ -14,8 +14,12 @@ Applied on [Millard et al. 2021](https://elifesciences.org/articles/63661) datas
 
 | File/Folder            | Description |
 |------------------------|-------------|
-| `dAMN.ipynb`   | Notebook to parametrize and run the model with a given dataset |
-| `train_dAMN.py`   | Script to train the model on a given dataset |
+| `dAMN.ipynb`           | Notebook to parametrize and run the model with a given dataset |
+| `train_dAMN.py`        | Script to train the model on a given dataset |
+| `dAMN_test.py`         | Script to test the model |
+| `dAMN_test_all.py`     | Script to test the model for growth curve and forecasting of the biomass and the substrate |
+| `parameters_search.py` | Script for kinetics parameters inference |
+| `parameters_search_all.py` | Script for kinetics parameters inference in medium and forecast mode with saving |
 | `utils.py`             | Core functions: model, data preprocessing, training, plotting |
 | `data/`                | Input datasets: media, OD, and metabolic model (SBML) |
 | `model/`               | Folder where trained models and validation arrays are stored |
@@ -33,3 +37,7 @@ To recreate the required environment from the `environment.yml` file:
 conda env create -n dAMN_env -f environment.yml
 conda activate dAMN_env
 ```
+
+### Contributors
+- Pr. Jean-Loup Faulon, jean-loup.faulon@inrae.fr: conceptualization, modeling, coding
+- Danilo Dursoniah, post-doc, danilo.dursoniah@inrae.fr: testing, maintenance

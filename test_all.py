@@ -4,9 +4,9 @@ import os
 # Modes and plot types to test
 modes = ['forecast', 'medium']
 plots = ['growth', 'substrate']
-figure_folder = './figure_from_dAMN_test_all'
+figure_folder = './figure_from_test_all'
 # Path to your test script
-script_path = './dAMN_test.py'
+script_path = './test.py'
 
 os.makedirs(figure_folder, exist_ok=True)
 

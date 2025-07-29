@@ -22,7 +22,7 @@ Applied on E.coli dataset.
 | `data/`                   | Input datasets: media, OD, and metabolic model (SBML)          |
 | `model/`                  | Folder where trained models and validation arrays are stored   |
 | `figure/`                 | Plots for training and testing curves                          |
-| `environment.yml` | conda environment configuation file |
+| `environment.yml` | conda environment configuration file |
 ---
 
 ## Setup and Environment

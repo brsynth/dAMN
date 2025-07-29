@@ -17,7 +17,7 @@ for mode in modes:
         run_folder = f"{figure_folder}/{mode}_{plot_type}"
         os.makedirs(run_folder, exist_ok=True)
 
-        print(f"\n🔁 Running with mode='{mode}' and plot='{plot_type}'...")
+        print(f"\n Running with mode='{mode}' and plot='{plot_type}'...")
         subprocess.run([
             "python3", script_path
         ], env={

@@ -1,5 +1,13 @@
 # dAMN — Hybrid Neural Network for Dynamical FBA
 
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16635533.svg)](https://doi.org/10.5281/zenodo.16635533)
+
+> First usable release of the dAMN software.  
+> This version corresponds to the implementation used to generate results for the associated publication.
+
+## Overview 
+
 **dAMN** is a hybrid machine learning model that combines:
 - A neural network for metabolic flux inference;
 - A dynamical FBA to simulate metabolite and biomass evolution over time
